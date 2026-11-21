@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CappucciCroissant SS | Cardápio Artesanal</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <!-- FontAwesome para ícones -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Plus Jakarta Sans', sans-serif; }
+        .font-serif { font-family: 'Playfair Display', serif; }
+        .bg-brand-dark { background-color: #2b1d14; }
+        .bg-brand-primary { background-color: #314436; }
+        .bg-brand-light { background-color: #eaf3ed; }
+        .text-brand-dark { color: #2b1d14; }
+        .text-brand-primary { color: #314436; }
+        .border-brand { border-color: #cbe0d3; }
+    </style>
+</head>
+<body class="bg-[#f4f8f5] text-brand-dark antialiased pb-28">
+
+    <!-- CABEÇALHO COM LOGO OFICIAL -->
+    <header class="bg-brand-dark text-white pt-8 pb-12 px-4 shadow-xl relative overflow-hidden">
+        <div class="absolute inset-0 opacity-10 bg-[radial-gradient(#d4af37_1px,transparent_1px)] [background-size:16px_16px]"></div>
+        <div class="max-w-md mx-auto relative z-10 text-center">
+            
+            <!-- Logo Oficial Circular com Borda Dourada -->
+            <div class="inline-block p-1 bg-gradient-to-tr from-[#d4af37] to-[#f3e5ab] rounded-full shadow-2xl mb-4 transform hover:scale-105 transition duration-300">
+                <div class="w-32 h-32 md:w-36 md:h-36 rounded-full overflow-hidden bg-brand-primary flex items-center justify-center border-4 border-brand-dark">
+                    <!-- Substitua o src abaixo se preferir hospedar a imagem da logo no GitHub -->
+                    <img src="https://images.unsplash.com/photo-1555507036-ab1f4038808a?auto=format&fit=crop&q=80&w=400" alt="CappucciCroissant SS Logo" class="w-full h-full object-cover">
+                </div>
+            </div>
+
+            <h1 class="font-serif text-3xl md:text-4xl font-bold tracking-wide text-[#f9f6ed]">CappucciCroissant SS</h1>
+            <p class="text-xs uppercase tracking-widest text-[#d4af37] font-semibold mt-1">Croissant Artesanal • Feito na Hora</p>
+            
+            <div class="mt-4 flex flex-wrap justify-center items-center gap-3 text-xs text-zinc-300">
+                <span class="bg-white/10 px-3 py-1.5 rounded-full backdrop-blur-md"><i class="fa-solid fa-location-dot text-[#d4af37] mr-1"></i> Rua Nova Heliopolis, 29</span>
+                <span class="bg-white/10 px-3 py-1.5 rounded-full backdrop-blur-md"><i class="fa-solid fa-clock text-[#d4af37] mr-1"></i> 17:00 às 23:30</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- BARRA DE BUSCA E FILTROS -->
+    <div class="max-w-md mx-auto px-4 -mt-6 relative z-20">
+        <div class="bg-white p-3 rounded-2xl shadow-lg border border-brand flex items-center gap-2">
+            <i class="fa-solid fa-magnifying-glass text-zinc-400 ml-2"></i>
+            <input type="text" id="searchInput" placeholder="O que você vai pedir hoje?" class="w-full bg-transparent text-sm focus:outline-none text-zinc-700 placeholder-zinc-400">
+        </div>
+
+        <!-- Abas de Categorias -->
+        <div class="flex gap-2 overflow-x-auto py-4 no-scrollbar scroll-smooth">
+            <button onclick="filterCategory('todos')" class="cat-btn px-4 py-2 rounded-xl text-xs font-bold whitespace-nowrap bg-brand-primary text-white shadow-md transition-all">Todos</button>
+            <button onclick="filterCategory('carro-chefe')" class="cat-btn px-4 py-2 rounded-xl text-xs font-bold whitespace-nowrap bg-white text-zinc-600 border border-brand shadow-sm">Carro-chefe</button>
+            <button onclick="filterCategory('doce')" class="cat-btn px-4 py-2 rounded-xl text-xs font-bold whitespace-nowrap bg-white text-zinc-600 border border-brand shadow-sm">Doces</button>
+            <button onclick="filterCategory('classico')" class="cat-btn px-4 py-2 rounded-xl text-xs font-bold whitespace-nowrap bg-white text-zinc-600 border border-brand shadow-sm">Clássicos</button>
+            <button onclick="filterCategory('salgado')" class="cat-btn px-4 py-2 rounded-xl text-xs font-bold whitespace-nowrap bg-white text-zinc-600 border border-brand shadow-sm">Salgados</button>
+            <button onclick="filterCategory('cafe')" class="cat-btn px-4 py-2 rounded-xl text-xs font-bold whitespace-nowrap bg-white text-zinc-600 border border-brand shadow-sm">Cafés</button>
+            <button onclick="filterCategory('bebida')" class="cat-btn px-4 py-2 rounded-xl text-xs font-bold whitespace-nowrap bg-white text-zinc-600 border border-brand shadow-sm">Bebidas</button>
+        </div>
+    </div>
+
+    <!-- LISTA DE PRODUTOS -->
+    <main class="max-w-md mx-auto px-4 mt-2 space-y-4" id="menuContainer">
+        <!-- Os itens serão injetados dinamicamente via JS -->
+    </main>
+
+    <!-- CARRINHO FLUTUANTE -->
+    <div id="cartBar" class="fixed bottom-0 left-0 right-0 bg-brand-dark border-t border-white/10 p-4 transform translate-y-full transition-transform duration-300 z-50 shadow-2xl">
+        <div class="max-w-md mx-auto flex items-center justify-between text-white">
+            <div>
+                <p class="text-xs text-zinc-400">Total do Pedido</p>
+                <p class="text-lg font-bold font-serif text-[#d4af37]" id="cartTotal">R$ 0,00</p>
+            </div>
+            <button onclick="openCheckout()" class="bg-[#314436] hover:bg-[#3d5645] border border-[#52735d] text-white px-6 py-3 rounded-xl font-bold text-sm shadow-lg flex items-center gap-2 transition-all">
+                <i class="fa-brands fa-whatsapp text-lg"></i> Concluir Pedido (<span id="cartCount">0</span>)
+            </button>
+        </div>
+    </div>
+
+    <!-- MODAL DE CHECKOUT / PEDIDO -->
+    <div id="checkoutModal" class="fixed inset-0 bg-black/60 backdrop-blur-sm hidden z-50 flex items-end sm:items-center justify-center p-0 sm:p-4">
+        <div class="bg-white w-full max-w-md rounded-t-3xl sm:rounded-3xl p-6 shadow-2xl max-h-[90vh] overflow-y-auto animate-in fade-in zoom-in duration-200">
+            <div class="flex justify-between items-center mb-4 border-b pb-3">
+                <h2 class="font-serif text-xl font-bold text-brand-dark">Finalizar Pedido</h2>
+                <button onclick="closeCheckout()" class="w-8 h-8 rounded-full bg-zinc-100 flex items-center justify-center text-zinc-500 hover:bg-zinc-200"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+
+            <div id="cartItemsList" class="space-y-3 mb-4 max-h-48 overflow-y-auto pr-1">
+                <!-- Itens selecionados -->
+            </div>
+
+            <div class="space-y-3 pt-2 border-t">
+                <div>
+                    <label class="block text-xs font-bold text-zinc-600 mb-1">Seu Nome:</label>
+                    <input type="text" id="clientName" placeholder="Digite seu nome completo" class="w-full bg-zinc-50 border border-zinc-200 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:border-brand-primary">
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-zinc-600 mb-1">Forma de Recebimento:</label>
+                    <select id="deliveryType" class="w-full bg-zinc-50 border border-zinc-200 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:border-brand-primary">
+                        <option value="Retirada no Local">Retirada na Loja (Rua Nova Heliopolis, 29)</option>
+                        <option value="Delivery">Delivery (Taxa a calcular no WhatsApp)</option>
+                    </select>
+                </div>
+                <div id="addressBox">
+                    <label class="block text-xs font-bold text-zinc-600 mb-1">Endereço de Entrega (se delivery):</label>
+                    <input type="text" id="clientAddress" placeholder="Rua, Número, Bairro e Referência" class="w-full bg-zinc-50 border border-zinc-200 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:border-brand-primary">
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-zinc-600 mb-1">Forma de Pagamento:</label>
+                    <select id="paymentMethod" class="w-full bg-zinc-50 border border-zinc-200 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:border-brand-primary">
+                        <option value="Pix">Pix</option>
+                        <option value="Cartão de Crédito">Cartão de Crédito</option>
+                        <option value="Cartão de Débito">Cartão de Débito</option>
+                        <option value="Dinheiro">Dinheiro</option>
+                    </select>
+                </div>
+            </div>
+
+            <button onclick="sendWhatsApp()" class="w-full mt-6 bg-[#25D366] hover:bg-[#20ba5a] text-white py-3.5 rounded-xl font-bold shadow-lg flex items-center justify-center gap-2 transition-all">
+                <i class="fa-brands fa-whatsapp text-xl"></i> Enviar Pedido no WhatsApp
+            </button>
+        </div>
+    </div>
+
+    <!-- SCRIPT DE FUNCIONALIDADES -->
+    <script>
+        const WHATSAPP_NUMBER = "5511999999999"; // Substitua pelo WhatsApp real da loja
+
+        const menuData = [
+            // Carro-chefe
+            { id: 1, name: "Croissant Nutella com morango + cappuccino quente ou gelado", desc: "Borda de Nutella e chantilly.", price: 30.00, category: "carro-chefe", badge: "Doce" },
+            { id: 2, name: "Croissant Príncipe", desc: "Nutella, Ninho, morango e Ferrero Rocher.", price: 50.00, category: "carro-chefe", badge: "Doce" },
+            { id: 3, name: "Croissant Rainha", desc: "Kinder Bueno, Nutella e morango.", price: 35.00, category: "carro-chefe", badge: "Doce" },
+            { id: 4, name: "Croissant Rei", desc: "Kinder Bueno, Nutella, morango e picolé clássico de chocolate com avelã.", price: 45.00, category: "carro-chefe", badge: "Doce" },
+            { id: 5, name: "Croissant Ouro", desc: "Kinder Bueno, Nutella, morango, barras de Kinder Bueno e picolé clássico de chocolate com avelã.", price: 50.00, category: "carro-chefe", badge: "Doce" },
+            { id: 6, name: "Croissant Pistache com Nutella e morango", desc: "Recheio cremoso especial de pistache.", price: 35.00, category: "carro-chefe", badge: "Doce" },
+            { id: 7, name: "Croissant Pistache", desc: "Croissant artesanal recheado com creme de pistache puro.", price: 19.00, category: "carro-chefe", badge: "Doce" },
+
+            // Especiais Doces
+            { id: 8, name: "Croissant com Nutella e morango", desc: "Clássico favorito da casa.", price: 20.00, category: "doce", badge: "Doce" },
+            { id: 9, name: "Croissant de Banoffe", desc: "Doce de leite, banana, chantilly e canela.", price: 20.00, category: "doce", badge: "Doce" },
+            { id: 10, name: "Croissant de Pistache com Kinder Bueno e Chantilly", desc: "Recheado com pistache, Kinder Bueno e chantilly.", price: 45.00, category: "doce", badge: "Doce" },
+            { id: 11, name: "Caribe Bueno com morango", desc: "Combinação tropical e exclusiva.", price: 18.00, category: "doce", badge: "Doce" },
+            { id: 12, name: "Pistache com morango", desc: "Pistache selecionado com morangos frescos.", price: 19.50, category: "doce", badge: "Doce" },
+            { id: 13, name: "Doce de leite com morango", desc: "Doce de leite artesanal e morangos.", price: 15.00, category: "doce", badge: "Doce" },
+
+            // Clássicos
+            { id: 14, name: "Nutella com morango e picolé clássico", desc: "Acompanha picolé na casquinha.", price: 30.00, category: "classico", badge: "Doce" },
+            { id: 15, name: "Croissant com doce de leite e morango", desc: "Receita tradicional artesanal.", price: 0.00, customPrice: "Preço a confirmar", category: "classico", badge: "Doce" },
+            { id: 16, name: "Pistache com morango e picolé clássico", desc: "Pistache, morango e picolé.", price: 29.50, category: "classico", badge: "Doce" },
+            { id: 17, name: "Caribe Bueno, morango e picolé clássico", desc: "Recheio especial Caribe Bueno.", price: 28.00, category: "classico", badge: "Doce" },
+            { id: 18, name: "Doce de leite, morango e picolé clássico", desc: "Deliciosa combinação gelada e quente.", price: 25.00, category: "classico", badge: "Doce" },
+
+            // Salgados
+            { id: 19, name: "Costela desfiada com cream cheese", desc: "Todos acompanham parmesão ralado, molho de alho e pimenta caseira da casa: a mal criada, a malvadinha.", price: 28.00, category: "salgado", badge: "Salgado" },
+            { id: 20, name: "Costela desfiada com Catupiry", desc: "Acompanha molhos especiais da casa.", price: 25.00, category: "salgado", badge: "Salgado" },
+            { id: 21, name: "Costela Desfiada com mussarela", desc: "Acompanha molhos da casa.", price: 20.00, category: "salgado", badge: "Salgado" },
+            { id: 22, name: "Frango desfiado com Creme cheese", desc: "Frango suculento e creme cheese.", price: 20.00, category: "salgado", badge: "Salgado" },
+            { id: 23, name: "Frango desfiado com catupiry", desc: "Tradicional e caprichado.", price: 16.00, category: "salgado", badge: "Salgado" },
+            { id: 24, name: "Frango Desfiado com mussarela", desc: "Queijo mussarela derretido.", price: 14.00, category: "salgado", badge: "Salgado" },
+            { id: 25, name: "Carne seca desfiada com Creme cheese", desc: "Carne seca selecionada.", price: 28.00, category: "salgado", badge: "Salgado" },
+            { id: 26, name: "Carne seca desfiada com Catupiry", desc: "Recheio generoso.", price: 25.00, category: "salgado", badge: "Salgado" },
+            { id: 27, name: "Carne seca desfiada com Mussarela", desc: "Com queijo mussarela.", price: 20.00, category: "salgado", badge: "Salgado" },
+            { id: 28, name: "Toscana com Creme cheese", desc: "Linguiça toscana artesanal.", price: 20.00, category: "salgado", badge: "Salgado" },
+            { id: 29, name: "Toscana com Catupiry", desc: "Sabor marcante.", price: 18.00, category: "salgado", badge: "Salgado" },
+            { id: 30, name: "Toscana com mussarela", desc: "Mussarela e toscana.", price: 16.00, category: "salgado", badge: "Salgado" },
+            { id: 31, name: "Presunto e mussarela", desc: "O clássico favorito.", price: 14.00, category: "salgado", badge: "Salgado" },
+            { id: 32, name: "Presunto e catupiry", desc: "Cremoso e saboroso.", price: 16.00, category: "salgado", badge: "Salgado" },
+            { id: 33, name: "Croissant Burguer Carne 150 gramas, Cheddar e Bacon", desc: "Hambúrguer artesanal de 150g.", price: 25.00, category: "salgado", badge: "Salgado" },
+
+            // Cafés especiais
+            { id: 34, name: "Cappuccino com Nutella e chantilly", desc: "Café especial cremoso.", price: 15.00, category: "cafe", badge: "Café" },
+            { id: 35, name: "Cappuccino com Nutella, chantilly e morango", desc: "Com toque de morango fresco.", price: 16.00, category: "cafe", badge: "Café" },
+            { id: 36, name: "Café puro", desc: "Café coado na hora.", price: 3.00, category: "cafe", badge: "Café" },
+            { id: 37, name: "Café com leite", desc: "Tradicional quentinho.", price: 5.00, category: "cafe", badge: "Café" },
+
+            // Bebidas e sucos
+            { id: 38, name: "Coca-Cola lata", desc: "350 ml", price: 5.50, category: "bebida", badge: "Bebida" },
+            { id: 39, name: "Guaraná lata", desc: "350 ml", price: 5.00, category: "bebida", badge: "Bebida" },
+            { id: 40, name: "Fanta laranja lata", desc: "350 ml", price: 5.00, category: "bebida", badge: "Bebida" },
+            { id: 41, name: "Coca-Cola 200 ml", desc: "Garrafinha pet", price: 3.50, category: "bebida", badge: "Bebida" },
+            { id: 42, name: "Guaraná 200 ml", desc: "Garrafinha pet", price: 3.50, category: "bebida", badge: "Bebida" },
+            { id: 43, name: "Fanta 200 ml", desc: "Garrafinha pet", price: 3.50, category: "bebida", badge: "Bebida" },
+            { id: 44, name: "Água 500 ml", desc: "Com ou sem gás", price: 3.00, category: "bebida", badge: "Bebida" }
+        ];
+
+        let cart = [];
+        let currentFilter = 'todos';
+
+        function renderMenu(filter = 'todos', search = '') {
+            const container = document.getElementById('menuContainer');
+            container.innerHTML = '';
+
+            const filtered = menuData.filter(item => {
+                const matchesCategory = filter === 'todos' || item.category === filter;
+                const matchesSearch = item.name.toLowerCase().includes(search.toLowerCase()) || item.desc.toLowerCase().includes(search.toLowerCase());
+                return matchesCategory && matchesSearch;
+            });
+
+            if (filtered.length === 0) {
+                container.innerHTML = `<div class="text-center py-12 text-zinc-400 text-sm">Nenhum item encontrado.</div>`;
+                return;
+            }
+
+            filtered.forEach(item => {
+                const badgeColor = item.badge === 'Salgado' ? 'bg-amber-100 text-amber-800' : (item.badge === 'Café' ? 'bg-orange-100 text-orange-800' : 'bg-rose-100 text-rose-800');
+                const priceFormatted = item.customPrice ? item.customPrice : `R$ ${item.price.toFixed(2).replace('.', ',')}`;
+
+                const card = document.createElement('div');
+                card.className = "bg-white p-4 rounded-2xl shadow-sm border border-brand flex justify-between items-center gap-3 hover:shadow-md transition-all";
+                card.innerHTML = `
+                    <div class="flex-1">
+                        <div class="flex items-center gap-2 mb-1">
+                            <span class="text-[10px] font-bold px-2 py-0.5 rounded-md ${badgeColor}">${item.badge}</span>
+                        </div>
+                        <h3 class="font-serif font-bold text-sm text-brand-dark">${item.name}</h3>
+                        <p class="text-xs text-zinc-500 mt-0.5 line-clamp-2">${item.desc}</p>
+                        <p class="text-sm font-bold text-[#314436] mt-2">${priceFormatted}</p>
+                    </div>
+                    <button onclick="addToCart(${item.id})" class="w-10 h-10 rounded-xl bg-brand-light text-brand-primary flex items-center justify-center hover:bg-brand-primary hover:text-white transition-all shadow-sm shrink-0">
+                        <i class="fa-solid fa-plus text-sm"></i>
+                    </button>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        function filterCategory(cat) {
+            currentFilter = cat;
+            document.querySelectorAll('.cat-btn').forEach(btn => {
+                btn.classList.remove('bg-brand-primary', 'text-white', 'shadow-md');
+                btn.classList.add('bg-white', 'text-zinc-600', 'border', 'border-brand');
+            });
+            event.currentTarget.classList.remove('bg-white', 'text-zinc-600', 'border', 'border-brand');
+            event.currentTarget.classList.add('bg-brand-primary', 'text-white', 'shadow-md');
+
+            const search = document.getElementById('searchInput').value;
+            renderMenu(cat, search);
+        }
+
+        document.getElementById('searchInput').addEventListener('input', (e) => {
+            renderMenu(currentFilter, e.target.value);
+        });
+
+        function addToCart(id) {
+            const product = menuData.find(i => i.id === id);
+            const existing = cart.find(i => i.id === id);
+            if (existing) {
+                existing.qty++;
+            } else {
+                cart.push({ ...product, qty: 1 });
+            }
+            updateCartUI();
+  
